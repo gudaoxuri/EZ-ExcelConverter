@@ -12,5 +12,5 @@ public class AddressBook {
     @Map2J("A1")
     public String companyName;
     @Map2J("A3:G(-1)")
-    public List<Item> items = new ArrayList<>();
+    public List<Item> items = new ArrayList<Item>();
 }

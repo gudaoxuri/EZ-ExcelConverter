@@ -52,7 +52,7 @@ public class FastJavaConvertStrategy extends AbsJavaConvertStrategy {
 
     //组装区域
     private List<int[]> assembleArea(String area, List<int[]> parentArea) {
-        List<int[]> resultAreas = new ArrayList<>();
+        List<int[]> resultAreas = new ArrayList<int[]>();
         if (-1 == area.indexOf(":") && -1 == area.indexOf(",")) {
             int[] idx = MappingHelper.getCellIdx(area, sheet);
             if (-1 == idx[0] || -1 == idx[1]) {

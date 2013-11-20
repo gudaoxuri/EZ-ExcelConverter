@@ -15,7 +15,7 @@ public class Project {
     public String name;
 
     @Map2J(value = "A4:G(-2)")
-    public List<Module> modules = new ArrayList<>();
+    public List<Module> modules = new ArrayList<Module>();
 
     @Map2J("B(-1)")
     public BigDecimal totalPrice;

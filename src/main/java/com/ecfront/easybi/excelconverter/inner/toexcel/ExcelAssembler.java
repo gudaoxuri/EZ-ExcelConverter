@@ -20,8 +20,8 @@ import java.math.BigDecimal;
 import java.util.*;
 
 public class ExcelAssembler {
-    private Map<String, Field> orderDataItems = new LinkedHashMap<>();
-    private Map<String, int[]> dataItemborders = new HashMap<>();
+    private Map<String, Field> orderDataItems = new LinkedHashMap<String, Field>();
+    private Map<String, int[]> dataItemborders = new HashMap<String, int[]>();
     private Object bean;
     private Sheet sheet;
 
