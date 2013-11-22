@@ -7,8 +7,8 @@
     </parent>
 
     <modelVersion>4.0.0</modelVersion>
-    <groupId>com.ecfront.easybi</groupId>
-    <artifactId>excelconverter</artifactId>
+    <groupId>com.ecfront</groupId>
+    <artifactId>ez-excelconverter</artifactId>
     <version>1.0</version>
     <packaging>jar</packaging>
     <name>Easy Excel Converter</name>
