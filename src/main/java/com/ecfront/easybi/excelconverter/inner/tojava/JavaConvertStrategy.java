@@ -16,5 +16,5 @@ public interface JavaConvertStrategy {
      * @param <E>       Bean Class
      * @return 转换后的对象
      */
-    <E extends Object> E convert(Class<E> beanClass, Sheet sheet) throws Exception;
+    <E> E convert(Class<E> beanClass, Sheet sheet) throws Exception;
 }

@@ -6,6 +6,7 @@ import com.ecfront.easybi.excelconverter.exchange.annotation.Mode;
 import com.ecfront.easybi.excelconverter.exchange.annotation.Sheet;
 import com.ecfront.easybi.excelconverter.exchange.annotation.Validation;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -17,7 +18,7 @@ public class IncomeReport {
     @Map2E(value = "side", abs = "B6", mode = Mode.COLUMN)
     public List<Integer> side;
     @Map2E(value = "data", top = "head", left = "side", isMatrix = true)
-    public List<Double[]> data;
+    public ArrayList data;
     @Validation(top = "head", left = "data", length = "data", mode = Mode.COLUMN)
     public String[] fill;
 }

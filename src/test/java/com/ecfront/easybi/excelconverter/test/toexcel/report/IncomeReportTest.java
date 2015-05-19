@@ -39,6 +39,6 @@ public class IncomeReportTest {
         }};
         report.fill = new String[]{"a", "b"};
         //EZExcel.toExcel(report, "D:\\workbook" + new Date().getTime() + ".xlsx");
-        EZExcel.toExcel(report, "D:\\workbook" + new Date().getTime() + ".xlsx", IncomeReportTest.class.getResource("/").getFile() + "template.xlsx");
+        EZExcel.toExcel(report, "\\tmp\\" + new Date().getTime() + ".xlsx", IncomeReportTest.class.getResource("/").getFile() + "template.xlsx");
     }
 }

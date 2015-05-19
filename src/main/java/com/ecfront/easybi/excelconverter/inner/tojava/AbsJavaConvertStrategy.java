@@ -22,7 +22,7 @@ public abstract class AbsJavaConvertStrategy implements JavaConvertStrategy {
     protected Map<int[], int[]> mergedCells;
 
     @Override
-    public <E extends Object> E convert(Class<E> beanClass, Sheet sheet) throws Exception {
+    public <E> E convert(Class<E> beanClass, Sheet sheet) throws Exception {
         this.beanClass = beanClass;
         this.sheet = sheet;
         mergedCells = ExcelHelper.findAllMergedCells(sheet);
@@ -34,15 +34,12 @@ public abstract class AbsJavaConvertStrategy implements JavaConvertStrategy {
      *
      * @throws Exception
      */
-    protected abstract <E extends Object> E doConvert() throws Exception;
+    protected abstract <E> E doConvert() throws Exception;
 
     /**
      * 解析、转换并返回最终值
      * Bean中要求的格式可与Excel各单元格的不一样，此方法承揽转换工作。
      *
-     * @param field
-     * @param rowIdx
-     * @param colIdx
      * @return 最终值
      * @throws java.text.ParseException
      */

@@ -20,15 +20,15 @@ import java.math.BigDecimal;
 import java.util.*;
 
 public class ExcelAssembler {
-    private Map<String, Field> orderDataItems = new LinkedHashMap<String, Field>();
-    private Map<String, int[]> dataItemborders = new HashMap<String, int[]>();
+    private Map<String, Field> orderDataItems = new LinkedHashMap<>();
+    private Map<String, int[]> dataItemborders = new HashMap<>();
     private Object bean;
     private Sheet sheet;
 
     public void assemble(Object bean, File outputFile, File templateFile) throws Exception {
         this.bean = bean;
         com.ecfront.easybi.excelconverter.exchange.annotation.Sheet annotationSheet = bean.getClass().getAnnotation(com.ecfront.easybi.excelconverter.exchange.annotation.Sheet.class);
-        Workbook workbook = null;
+        Workbook workbook;
         if (null == templateFile) {
             workbook = new XSSFWorkbook();
             if (annotationSheet.value() != null && !"".equals(annotationSheet.value().trim())) {
@@ -62,14 +62,14 @@ public class ExcelAssembler {
     private void parseDependent(Object bean) {
         Field[] fields = bean.getClass().getFields();
         if (fields != null && fields.length > 0) {
-            Map<String, Object[]> allDataItems = new HashMap<String, Object[]>();
+            Map<String, Object[]> allDataItems = new HashMap<>();
             Map2E map;
             List<String> dependents;
             //1st get all data items
             for (Field f : fields) {
                 if (f.isAnnotationPresent(Map2E.class)) {
                     map = f.getAnnotation(Map2E.class);
-                    dependents = new ArrayList<String>();
+                    dependents = new ArrayList<>();
                     if (!"".equals(map.left())) {
                         dependents.addAll(Arrays.asList(map.left().split(",")));
                     }
@@ -80,7 +80,7 @@ public class ExcelAssembler {
                 }
             }
             if (allDataItems.size() > 0) {
-                List<String> orderDataItemNames = new LinkedList<String>();
+                List<String> orderDataItemNames = new LinkedList<>();
                 for (Map.Entry<String, Object[]> entity : allDataItems.entrySet()) {
                     addOrderDataItemName(orderDataItemNames, entity.getKey(), (List<String>) entity.getValue()[0], allDataItems);
                 }
@@ -96,13 +96,12 @@ public class ExcelAssembler {
             return;
         }
         if (dependents.size() > 0) {
-            for (String s : dependents) {
-                if (orderDataItemNames.indexOf(s) == -1) {
-                    //the dependent is not add to orderDataItemNames yet
-                    Object[] entity = allDataItems.get(s);
-                    addOrderDataItemName(orderDataItemNames, s, (List<String>) entity[0], allDataItems);
-                }
-            }
+            //the dependent is not add to orderDataItemNames yet
+            dependents.stream().filter(s -> orderDataItemNames.indexOf(s) == -1).forEach(s -> {
+                //the dependent is not add to orderDataItemNames yet
+                Object[] entity = allDataItems.get(s);
+                addOrderDataItemName(orderDataItemNames, s, (List<String>) entity[0], allDataItems);
+            });
             int maxIdx = 0;
             int currentIdx;
             for (String s : dependents) {
@@ -156,11 +155,7 @@ public class ExcelAssembler {
                 if (valuesIterator.hasNext()) {
                     CellRangeAddress address = ExcelHelper.getMergedRegion(sheet, cell);
                     if (isMatrix) {
-                        if (level % 2 == 0) {
-                            rowMode = false;
-                        } else {
-                            rowMode = true;
-                        }
+                        rowMode = level % 2 != 0;
                     } else {
                         rowMode = mode == Mode.ROW;
                     }

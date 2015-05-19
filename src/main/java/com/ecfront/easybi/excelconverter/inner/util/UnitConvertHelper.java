@@ -9,8 +9,6 @@ public class UnitConvertHelper {
 
     /**
      * Convert 26 TO 10 ,Use word TO number
-     * @param s
-     * @return
      */
     public static int convert26to10(String s) {
         if (null != s && !"".equals(s)) {

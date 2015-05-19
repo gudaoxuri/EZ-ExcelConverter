@@ -20,7 +20,7 @@ import java.util.*;
 public class FastJavaConvertStrategy extends AbsJavaConvertStrategy {
 
 
-    private Map<String, List<int[]>> MAPPING = new HashMap<String, List<int[]>>();
+    private Map<String, List<int[]>> MAPPING = new HashMap<>();
 
     @Override
     public Object doConvert() throws Exception {
@@ -29,7 +29,7 @@ public class FastJavaConvertStrategy extends AbsJavaConvertStrategy {
     }
 
     //组装MAPPING，获取所有field和其对应的单元格
-    private <O extends Object> void assembleMapping(Class<O> beanClass, List<int[]> parentArea) {
+    private <O> void assembleMapping(Class<O> beanClass, List<int[]> parentArea) {
         String area;
         Class<?> subClass;
         for (Field field : beanClass.getDeclaredFields()) {
@@ -52,15 +52,15 @@ public class FastJavaConvertStrategy extends AbsJavaConvertStrategy {
 
     //组装区域
     private List<int[]> assembleArea(String area, List<int[]> parentArea) {
-        List<int[]> resultAreas = new ArrayList<int[]>();
-        if (-1 == area.indexOf(":") && -1 == area.indexOf(",")) {
+        List<int[]> resultAreas = new ArrayList<>();
+        if (!area.contains(":") && !area.contains(",")) {
             int[] idx = MappingHelper.getCellIdx(area, sheet);
             if (-1 == idx[0] || -1 == idx[1]) {
                 //把类似"A"这样的区域改为"A:A"，因为它本身就是一个区域
                 area = area + ":" + area;
             }
         }
-        if (-1 != area.indexOf(":")) {
+        if (area.contains(":")) {
             //单元格区域处理
             //获取首末单元格，对没有指定相应行/列的（多在子对象中）按父区域的边界组装
             int[] startIdx = MappingHelper.getCellIdx(area.split(":")[0], sheet);
@@ -82,7 +82,7 @@ public class FastJavaConvertStrategy extends AbsJavaConvertStrategy {
                     addArea(new int[]{i, j}, parentArea, resultAreas);
                 }
             }
-        } else if (-1 != area.indexOf(",")) {
+        } else if (area.contains(",")) {
             //多个单元格处理
             String[] areas = area.split(",");
             for (String a : areas) {
@@ -150,8 +150,8 @@ public class FastJavaConvertStrategy extends AbsJavaConvertStrategy {
             return true;
         }
         int len = parentArea.size();
-        for (int i = 0; i < len; i++) {
-            if (idx[0] == parentArea.get(i)[0] && idx[1] == parentArea.get(i)[1]) {
+        for (int[] aParentArea : parentArea) {
+            if (idx[0] == aParentArea[0] && idx[1] == aParentArea[1]) {
                 return true;
             }
         }
@@ -159,7 +159,7 @@ public class FastJavaConvertStrategy extends AbsJavaConvertStrategy {
     }
 
     //组装Bean，mapIdx主要用于容器成员变量，每次循环加1
-    private <O extends Object> O assembleBean(Class<O> beanClass, int mapIdx) throws IllegalAccessException, InstantiationException, ParseException {
+    private <O> O assembleBean(Class<O> beanClass, int mapIdx) throws IllegalAccessException, InstantiationException, ParseException {
         O obj = beanClass.newInstance();
         Class<?> subClass;
         Object result;

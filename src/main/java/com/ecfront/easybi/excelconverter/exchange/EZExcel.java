@@ -23,7 +23,7 @@ public class EZExcel {
      * @param <E>       Bean Class
      * @return 转换后的对象
      */
-    public static <E extends Object> E toJava(String filePath, Class<E> beanClass) throws Exception {
+    public static <E> E toJava(String filePath, Class<E> beanClass) throws Exception {
         return toJava(new File(filePath), beanClass);
     }
 
@@ -35,7 +35,7 @@ public class EZExcel {
      * @param <E>       Bean Class
      * @return 转换后的对象
      */
-    public static <E extends Object> E toJava(File file, Class<E> beanClass) throws Exception {
+    public static <E> E toJava(File file, Class<E> beanClass) throws Exception {
         Workbook workbook;
         //选择格式
         if (file.getName().lastIndexOf("xlsx") != -1) {
@@ -54,7 +54,7 @@ public class EZExcel {
      * @param <E>       Bean Class
      * @return 转换后的对象
      */
-    public static <E extends Object> E toJava(Workbook workbook, Class<E> beanClass) throws Exception {
+    public static <E> E toJava(Workbook workbook, Class<E> beanClass) throws Exception {
         if (null != workbook && workbook.getNumberOfSheets() > 0) {
             if (beanClass.isAnnotationPresent(com.ecfront.easybi.excelconverter.exchange.annotation.Sheet.class)) {
                 return doToJava(workbook, beanClass);
@@ -63,7 +63,7 @@ public class EZExcel {
         return null;
     }
 
-    private static <E extends Object> E doToJava(Workbook workbook, Class<E> beanClass) throws Exception {
+    private static <E> E doToJava(Workbook workbook, Class<E> beanClass) throws Exception {
         com.ecfront.easybi.excelconverter.exchange.annotation.Sheet annotationSheet = beanClass.getAnnotation(com.ecfront.easybi.excelconverter.exchange.annotation.Sheet.class);
         for (int numSheet = 0; numSheet < workbook.getNumberOfSheets(); numSheet++) {
             Sheet sheet = workbook.getSheetAt(numSheet);

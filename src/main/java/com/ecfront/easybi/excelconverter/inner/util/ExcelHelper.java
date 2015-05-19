@@ -56,7 +56,7 @@ public class ExcelHelper {
      * @return 所有合并过的单元格，key为合并过的单元格，value为对应单元格所在合并区域的首个单元格，即有值的单元格
      */
     public static Map<int[], int[]> findAllMergedCells(Sheet sheet) {
-        Map<int[], int[]> mergedCells = new HashMap<int[], int[]>();
+        Map<int[], int[]> mergedCells = new HashMap<>();
         CellRangeAddress address;
         for (int i = 0; i < sheet.getNumMergedRegions(); i++) {
             address = sheet.getMergedRegion(i);
