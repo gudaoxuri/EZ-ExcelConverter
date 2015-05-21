@@ -4,14 +4,17 @@ package com.ecfront.easybi.excelconverter.test.tojava.project;
 import com.ecfront.easybi.excelconverter.exchange.annotation.Map2J;
 
 import java.util.Date;
+import java.util.List;
 
 public class Process {
 
     @Map2J("E")
-    private Double percentage;
+    public Double percentage;
     @Map2J(value = "F", trueValue = "是")
-    private Boolean isFinish;
+    public Boolean isFinish;
+    @Map2J(value = "F", getStruct = true)
+    public List<String> status;
     @Map2J("G")
-    private Date finishDate;
+    public Date finishDate;
 
 }

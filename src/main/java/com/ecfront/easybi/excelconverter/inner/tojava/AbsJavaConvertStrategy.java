@@ -41,7 +41,6 @@ public abstract class AbsJavaConvertStrategy implements JavaConvertStrategy {
      * Bean中要求的格式可与Excel各单元格的不一样，此方法承揽转换工作。
      *
      * @return 最终值
-     * @throws java.text.ParseException
      */
     protected Object getFinalValue(Field field, int rowIdx, int colIdx) throws ParseException {
         Class<?> fieldType = field.getType();
@@ -81,5 +80,13 @@ public abstract class AbsJavaConvertStrategy implements JavaConvertStrategy {
         }
     }
 
+    /**
+     * 解析、转换并返回结构信息
+     *
+     * @return 结构信息
+     */
+    protected Object getStructInfo(Field field, int rowIdx, int colIdx) throws ParseException {
+        return ExcelHelper.getStruct(rowIdx, colIdx, sheet);
+    }
 
 }

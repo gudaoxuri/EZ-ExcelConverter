@@ -4,8 +4,12 @@ package com.ecfront.easybi.excelconverter.inner.util;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.ss.util.CellRangeAddress;
 import org.apache.poi.ss.util.CellRangeAddressList;
+import org.apache.poi.xssf.usermodel.XSSFDataValidation;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
 
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -47,6 +51,34 @@ public class ExcelHelper {
             default:
                 return cell.getRichStringCellValue();
         }
+    }
+
+    /**
+     * 获取单元格中的结构信息
+     * // TODO  暂时只支持获取Drop down list信息
+     *
+     * @param rowIdx 行号
+     * @param colIdx 列号
+     * @param sheet  工作表
+     * @return 值
+     */
+    public static List<String> getStruct(int rowIdx, int colIdx, Sheet sheet) {
+        if (sheet instanceof XSSFSheet) {
+            for (XSSFDataValidation validation : ((XSSFSheet) sheet).getDataValidations()) {
+                for (CellRangeAddress cell : validation.getRegions().getCellRangeAddresses()) {
+                    if (cell.isInRange(rowIdx, colIdx)) {
+                        String[] result = validation.getValidationConstraint().getExplicitListValues();
+                        //Bug array 首尾会多出"号
+                        if (result.length > 0) {
+                            result[0] = result[0].substring(1);
+                            result[result.length - 1] = result[result.length - 1].substring(0, result[result.length - 1].length() - 1);
+                        }
+                        return Arrays.asList(result);
+                    }
+                }
+            }
+        }
+        return null;
     }
 
     /**
@@ -101,10 +133,10 @@ public class ExcelHelper {
         if (row == null) {
             row = sheet.createRow(rowIdx);
         }
-        return row.getCell(columnIdx)!=null?row.getCell(columnIdx):row.createCell(columnIdx);
+        return row.getCell(columnIdx) != null ? row.getCell(columnIdx) : row.createCell(columnIdx);
     }
 
-    public static void setDataValidation(Sheet sheet,String[] textList, int firstRow, int endRow, int firstCol, int endCol) {
+    public static void setDataValidation(Sheet sheet, String[] textList, int firstRow, int endRow, int firstCol, int endCol) {
         DataValidationHelper helper = sheet.getDataValidationHelper();
         // 加载下拉列表内容
         DataValidationConstraint constraint = helper.createExplicitListConstraint(textList);
@@ -114,6 +146,6 @@ public class ExcelHelper {
         CellRangeAddressList regions = new CellRangeAddressList((short) firstRow, (short) endRow, (short) firstCol, (short) endCol);
         // 数据有效性对象
         DataValidation dataValidation = helper.createValidation(constraint, regions);
-        sheet.addValidationData( dataValidation);
+        sheet.addValidationData(dataValidation);
     }
 }

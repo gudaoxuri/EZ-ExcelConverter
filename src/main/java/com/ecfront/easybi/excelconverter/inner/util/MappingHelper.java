@@ -22,7 +22,7 @@ public class MappingHelper {
         if (field.getGenericType() instanceof ParameterizedType) {
             //查找泛型容器的泛型class
             for (Type aType : ((ParameterizedType) field.getGenericType()).getActualTypeArguments()) {
-                if (aType instanceof Class) {
+                if (aType instanceof Class && !((Class) aType).getName().startsWith("java")) {
                     return (Class) aType;
                 }
             }

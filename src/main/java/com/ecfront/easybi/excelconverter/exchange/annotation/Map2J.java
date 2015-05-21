@@ -53,4 +53,9 @@ public @interface Map2J {
      * 当对应单元格要解析成日期/时间，但Excel单元格却是字符串时用于定义转换格式，默认为"yyyy-MM-dd"。
      */
     String dateFormat() default "yyyy-MM-dd";
+
+    /**
+     * 是否获取结构信息，默认为false表示只获取值，为true用于获取结构信息，如下拉选项列表
+     */
+    boolean getStruct() default false;
 }

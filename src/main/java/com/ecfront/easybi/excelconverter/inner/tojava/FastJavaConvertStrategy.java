@@ -149,7 +149,6 @@ public class FastJavaConvertStrategy extends AbsJavaConvertStrategy {
         if (null == parentArea || parentArea.size() == 0) {
             return true;
         }
-        int len = parentArea.size();
         for (int[] aParentArea : parentArea) {
             if (idx[0] == aParentArea[0] && idx[1] == aParentArea[1]) {
                 return true;
@@ -198,7 +197,13 @@ public class FastJavaConvertStrategy extends AbsJavaConvertStrategy {
     //获取结果值
     private Object getFieldValue(String key, Field field, int mapIdx) throws ParseException {
         int[] area = MAPPING.get(key).get(mapIdx);
-        return getFinalValue(field, area[0], area[1]);
+        if(!field.getAnnotation(Map2J.class).getStruct()) {
+            //获取值
+            return getFinalValue(field, area[0], area[1]);
+        }else{
+            //获取结构信息
+            return getStructInfo(field, area[0], area[1]);
+        }
     }
 
 }
