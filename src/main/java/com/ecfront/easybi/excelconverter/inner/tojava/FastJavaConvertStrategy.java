@@ -10,11 +10,10 @@ import java.util.*;
 
 /**
  * 默认的转换策略
- * <ul>此策略处理步骤如下：
- * <li><ul>
+ * <ul>
  * <li>遍历成员变量，递归bean，获取所有被Mapping标记的成员变量</li>
- * <li>根据层级关系计算各Mapping的最终value</li></ul></li>
- * <li><ul><li>遍历成员变量，递归bean，结合对应的Mapping</li></ul></li>
+ * <li>根据层级关系计算各Mapping的最终value</li>
+ * <li>遍历成员变量，递归bean，结合对应的Mapping</li>
  * </ul>
  */
 public class FastJavaConvertStrategy extends AbsJavaConvertStrategy {
