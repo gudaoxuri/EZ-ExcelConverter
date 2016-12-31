@@ -39,6 +39,9 @@ public class IncomeReportTest {
         }};
         report.fill = new String[]{"a", "b"};
         //EZExcel.toExcel(report, "D:\\workbook" + new Date().getTime() + ".xlsx");
-        EZExcel.toExcel(report, "\\tmp\\" + new Date().getTime() + ".xlsx", IncomeReportTest.class.getResource("/").getFile() + "template.xlsx");
+        // EZExcel.toExcel(report, "\\tmp\\" + new Date().getTime() + ".xlsx", IncomeReportTest.class.getResource("/").getFile() + "template.xlsx");
+        Long dt = new Date().getTime();
+        EZExcel.toExcel(report, "\\tmp\\" + dt + ".xlsx", IncomeReportTest.class.getResource("/").getFile() + "template.xlsx");
+        EZExcel.copy("\\tmp\\" + dt + ".xlsx", "收支报表", "新2Sheet");
     }
 }

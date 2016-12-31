@@ -84,6 +84,10 @@ public class EZExcel {
         return file;
     }
 
+    public static void copy(String filePath,String oriSheet,String targetSheet) throws Exception {
+        new ExcelAssembler().copy(filePath,oriSheet,targetSheet);
+    }
+
     public static File toExcel(Object bean, String filePath, String templatePath) throws Exception {
         File file = new File(filePath);
         new ExcelAssembler().assemble(bean, file, new File(templatePath));

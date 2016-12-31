@@ -59,6 +59,23 @@ public class ExcelAssembler {
         os.close();
     }
 
+    public void copy(String filePath, String oriSheet, String targetSheet) throws Exception {
+        Workbook workbook;
+        String extName = filePath.substring(filePath.lastIndexOf(".") + 1);
+        if ("xlsx".equalsIgnoreCase(extName)) {
+            workbook = new XSSFWorkbook(new FileInputStream(filePath));
+        } else if ("xls".equalsIgnoreCase(extName)) {
+            workbook = new HSSFWorkbook(new FileInputStream(filePath));
+        } else {
+            throw new Exception("File is NOT allowed!");
+        }
+        workbook.cloneSheet(workbook.getSheetIndex(oriSheet));
+        workbook.setSheetName(workbook.getNumberOfSheets()-1, targetSheet);
+        FileOutputStream os = new FileOutputStream(filePath);
+        workbook.write(os);
+        os.close();
+    }
+
     private void parseDependent(Object bean) {
         Field[] fields = bean.getClass().getFields();
         if (fields != null && fields.length > 0) {
