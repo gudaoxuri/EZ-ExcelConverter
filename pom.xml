@@ -4,7 +4,7 @@
 
     <groupId>com.ecfront</groupId>
     <artifactId>ez-excelconverter</artifactId>
-    <version>0.3</version>
+    <version>0.3.1</version>
 
     <name>Easy Excel Converter</name>
     <description>Simple Java and Excel conversion tools.</description>

@@ -31,7 +31,7 @@ public class ExcelAssembler {
         Workbook workbook;
         if (null == templateFile) {
             workbook = new XSSFWorkbook();
-            if (annotationSheet.value() != null && !"".equals(annotationSheet.value().trim())) {
+            if (!"".equals(annotationSheet.value().trim())) {
                 sheet = workbook.createSheet(annotationSheet.value());
             } else {
                 sheet = workbook.createSheet();
@@ -45,12 +45,13 @@ public class ExcelAssembler {
             } else {
                 throw new Exception("Template File is NOT allowed!");
             }
-            if (annotationSheet.value() != null && !"".equals(annotationSheet.value().trim())) {
+            if (!"".equals(annotationSheet.value().trim())) {
                 sheet = workbook.getSheet(annotationSheet.value());
             } else {
                 sheet = workbook.getSheetAt(0);
             }
         }
+        sheet.setForceFormulaRecalculation(true);
         parseDependent(bean);
         packageDataItems();
         packageValidations();
